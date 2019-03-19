@@ -4,14 +4,13 @@ import java.awt.*;
 public class jpanelTest extends JPanel {
 
     private Graphics g;
-    private Image im;
+    private Role_image im;
     private int x = 0;
     private int y = 0;
-    private int actions_num = 1;
-    public jpanelTest(Image im) {
+    public jpanelTest(Role_image im) {
         if (im != null) {
             this.im = im;
-            g = im.getGraphics();
+            this.g = im.getGraphics();
         }
     }
     public void display(int index) {
@@ -31,23 +30,20 @@ public class jpanelTest extends JPanel {
 //        System.out.println(im);
 //        System.out.println(x);
         super.paintComponent(g1);
-        if(x < actions_num){
+        if(x < this.im.getAction_nums()){
             x = x + 1;
         }else {
             x = 0;
         }
-        int width = im.getWidth(this)/actions_num;
+        int width = im.getWidth(this);
         int height = im.getHeight(this);
-        g1.drawImage(im, 0, 0,width, height,
+        g1.drawImage(im.getImage(), 0, 0,width, height,
                 x*width, y, (x+1)*width, y+height,
                 this);
     }
 
-    public void setIm(Image im) {
+    public void setIm(Role_image im) {
         this.im = im;
         this.g = im.getGraphics();
-    }
-    public void setActions_num(int actions_num){
-        this.actions_num = actions_num;
     }
 }
