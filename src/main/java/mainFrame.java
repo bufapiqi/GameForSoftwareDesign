@@ -3,9 +3,6 @@ import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -55,7 +52,8 @@ public class mainFrame extends JFrame{
 //            jp.display(1);
             jf.addKeyListener(new KeyEventAdapter(jp, jf.current_role));
             while(true) {
-                jp.repaint();
+//                jp.repaint();
+                jp.display(0);
                 try
                 {
                     Thread.sleep(50);

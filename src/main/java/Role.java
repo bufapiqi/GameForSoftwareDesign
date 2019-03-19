@@ -22,7 +22,7 @@ public abstract class Role{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.image_hashmap.put(-1, new Role_image(shana, 4));
+        this.image_hashmap.put(-1, new Role_image(shana, 4, Action_enum.STAND));
     }
 
     public Role_image get_Action(int KeyCode){

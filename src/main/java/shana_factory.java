@@ -1,3 +1,5 @@
+import javafx.scene.input.KeyCode;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.FileInputStream;
@@ -15,13 +17,19 @@ public class shana_factory extends Role_action_factory{
         try {
             if ( keyCode == 39){
                 Image shana = ImageIO.read(new FileInputStream("src/main/resources/shana/shana_forward.png"));
-                need_return = new Role_image(shana, 8);
+                need_return = new Role_image(shana, 8, Action_enum.RIGHT);
             }else if (keyCode == 37){
                 Image shana = ImageIO.read(new FileInputStream("src/main/resources/shana/shana_rollback.png"));
-                need_return = new Role_image(shana, 8);
+                need_return = new Role_image(shana, 8, Action_enum.LEFT);
             }else if (keyCode == 81){
                 Image shana = ImageIO.read(new FileInputStream("src/main/resources/shana/shana_light_attack.png"));
-                need_return = new Role_image(shana, 7);
+                need_return = new Role_image(shana, 7, Action_enum.LIGHT_ATTACK);
+            }else if ( keyCode == 38){
+                Image shana = ImageIO.read(new FileInputStream("src/main/resources/shana/shana_forward.png"));
+                need_return = new Role_image(shana, 8, Action_enum.UP);
+            }else if( keyCode == 40){
+                Image shana = ImageIO.read(new FileInputStream("src/main/resources/shana/shana_rollback.png"));
+                need_return = new Role_image(shana, 8, Action_enum.DOWN);
             }
         } catch (IOException e) {
             e.printStackTrace();

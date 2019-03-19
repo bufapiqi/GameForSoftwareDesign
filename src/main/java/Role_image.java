@@ -11,10 +11,12 @@ import java.awt.image.ImageProducer;
 public class Role_image extends Image {
     private Image image;
     private int action_nums = 1;
+    private Action_enum action_type;
 
-    public Role_image(Image image, int action_nums){
+    public Role_image(Image image, int action_nums, Action_enum type){
         this.image = image;
         this.action_nums = action_nums;
+        this.action_type = type;
     }
 
     public int getWidth(ImageObserver observer) {
@@ -44,5 +46,9 @@ public class Role_image extends Image {
 
     public int getAction_nums() {
         return action_nums;
+    }
+
+    public Action_enum getAction_type() {
+        return action_type;
     }
 }

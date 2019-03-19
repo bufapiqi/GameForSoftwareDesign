@@ -15,11 +15,15 @@ public class KeyEventAdapter implements KeyListener {
     public void keyPressed(KeyEvent e) {
         System.out.println(e.getKeyCode());
         System.out.println(KeyEvent.getKeyText(e.getKeyCode()));
-        test.setIm(current.get_Action(e.getKeyCode()));
+        Role_image need_return = current.get_Action(e.getKeyCode());
+        test.setIm(need_return);
+        test.setNow_action_type(need_return.getAction_type());
     }
 
     public void keyReleased(KeyEvent e) {
         System.out.println(e.getKeyCode() + "    释放了");
-        test.setIm(current.get_Action(-1));
+        Role_image need_return = current.get_Action(-1);
+        test.setIm(need_return);
+        test.setNow_action_type(need_return.getAction_type());
     }
 }
