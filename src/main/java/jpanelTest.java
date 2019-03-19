@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class jpanelTest extends JPanel {
 
@@ -9,6 +7,7 @@ public class jpanelTest extends JPanel {
     private Image im;
     private int x = 0;
     private int y = 0;
+    private int actions_num = 1;
     public jpanelTest(Image im) {
         if (im != null) {
             this.im = im;
@@ -32,18 +31,23 @@ public class jpanelTest extends JPanel {
 //        System.out.println(im);
 //        System.out.println(x);
         super.paintComponent(g1);
-        if(x<3){
+        if(x < actions_num){
             x = x + 1;
         }else {
             x = 0;
         }
-        g1.drawImage(im, 0, 0,55, 62,
-                x*55, y, (x*55)+55, y+62,
+        int width = im.getWidth(this)/actions_num;
+        int height = im.getHeight(this);
+        g1.drawImage(im, 0, 0,width, height,
+                x*width, y, (x+1)*width, y+height,
                 this);
     }
 
     public void setIm(Image im) {
         this.im = im;
         this.g = im.getGraphics();
+    }
+    public void setActions_num(int actions_num){
+        this.actions_num = actions_num;
     }
 }

@@ -39,6 +39,7 @@ public class mainFrame extends JFrame{
             JFrame   jf = new JFrame();
             //通过构造方法将缓冲缓冲区对像的引用传给自定义Panel
             jpanelTest jp = new jpanelTest(im);
+            jp.setActions_num(4);
             jf.setBounds(200,200,500, 500);
             jp.setSize(220, 100);
             jf.add(jp);
@@ -50,7 +51,7 @@ public class mainFrame extends JFrame{
                 jp.repaint();
                 try
                 {
-                    Thread.sleep(200);
+                    Thread.sleep(50);
                 }
                 catch (InterruptedException e)
                 {

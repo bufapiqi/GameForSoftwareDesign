@@ -14,18 +14,27 @@ public class KeyEventAdapter implements KeyListener {
     }
 
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == 39){
-            try {
+        System.out.println(e.getKeyCode());
+        try{
+            if (e.getKeyCode() == 39){
                 test.setIm(ImageIO.read(new FileInputStream("src/main/resources/shana_forward.png")));
-            } catch (IOException e1) {
-                e1.printStackTrace();
+                test.setActions_num(8);
+            }else if (e.getKeyCode() == 81){
+                test.setIm(ImageIO.read(new FileInputStream("src/main/resources/shana_attack_q1.png")));
+                test.setActions_num(7);
+            }else if (e.getKeyCode() == 37){
+                test.setIm(ImageIO.read(new FileInputStream("src/main/resources/shana_rollback.png")));
+                test.setActions_num(8);
             }
+        }catch (IOException e1){
+            e1.printStackTrace();
         }
     }
 
     public void keyReleased(KeyEvent e) {
         try {
             test.setIm(ImageIO.read(new FileInputStream("src/main/resources/shana_stand.png")));
+            test.setActions_num(4);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
