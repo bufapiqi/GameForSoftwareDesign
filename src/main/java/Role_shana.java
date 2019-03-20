@@ -9,15 +9,24 @@ import java.io.IOException;
  *
  * */
 public class Role_shana extends Role{
-    public Role_shana(String Role_name, Point role_point) {
+    private Image shana_head;
+    public Role_shana(String Role_name, Point role_point, int HP, int origin_attack_ab) {
         super(Role_name, role_point);
+        this.NOW_HP = HP;
+        this.HP = HP;
+        this.attack_ab = origin_attack_ab;
         Image shana = null;
         try {
             shana = ImageIO.read(new FileInputStream("src/main/resources/"+Role_name+"/"+Role_name+"_stand.png"));
+            shana_head = ImageIO.read(new FileInputStream("src/main/resources/"+Role_name+"/"+Role_name+"_head1.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         this.current_image = new Role_image(shana, 4, Action_enum.STAND);
         this.image_hashmap.put(-1, this.current_image);
+    }
+
+    public Image getShana_head() {
+        return shana_head;
     }
 }

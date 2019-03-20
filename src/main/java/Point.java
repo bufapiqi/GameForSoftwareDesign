@@ -13,16 +13,16 @@ public class Point {
     public void selfAdd(Action_enum action_type, int width, int height){
         switch (action_type){
             case RIGHT:
-                x = (x+10) > width ? 0 : x+10;
+                x = (x+100) > width ? x : x+10;
                 break;
             case LEFT:
-                x = (x-10) > 0 ? x-10 : width;
+                x = (x-20) > 0 ? x-10 : x;
                 break;
             case UP:
-                y = (y-10) < 0 ? height : y -10;
+                y = (y-10) < 0 ? y : y-10;
                 break;
             case DOWN:
-                y = (y+10) > height ? 0 : y+10;
+                y = (y+10) > height ? y : y+10;
                 break;
             case LIGHT_ATTACK:
                 break;

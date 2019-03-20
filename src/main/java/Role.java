@@ -7,6 +7,9 @@ import java.util.HashMap;
  * */
 public abstract class Role{
     protected String Role_name;
+    protected int HP;
+    protected int NOW_HP;
+    protected int attack_ab;
     protected HashMap<Integer, Role_image> image_hashmap;
     protected Point role_point;
     protected Role_image current_image;
@@ -42,14 +45,14 @@ public abstract class Role{
 //        this.current_image = image_hashmap.get(KeyCode); // 返回相应的角色动作
         update_image_x(image_hashmap.get(KeyCode));
 //        role_point.printPoint();
-        this.role_point.selfAdd(this.current_image.getAction_type(), 500, 500);
+        this.role_point.selfAdd(this.current_image.getAction_type(), 800, 800);
         return this;
     }
 
     public Role get_Action(Action_enum mons_direction){
 //        this.current_image = image_hashmap.get(-1);
         update_image_x(image_hashmap.get(-1));
-        this.role_point.selfAdd(mons_direction, 500, 500);
+        this.role_point.selfAdd(mons_direction, 800, 800);
         return this;
     }
 
@@ -70,5 +73,29 @@ public abstract class Role{
 
     public Point getRole_point() {
         return role_point;
+    }
+
+    public int getHP() {
+        return HP;
+    }
+
+    public void setHP(int HP) {
+        this.HP = HP;
+    }
+
+    public int getAttack_ab() {
+        return attack_ab;
+    }
+
+    public int getNOW_HP() {
+        return NOW_HP;
+    }
+
+    public void setNOW_HP(int NOW_HP) {
+        this.NOW_HP = NOW_HP;
+    }
+
+    public void setAttack_ab(int attack_ab) {
+        this.attack_ab = attack_ab;
     }
 }

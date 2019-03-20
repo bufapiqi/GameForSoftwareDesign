@@ -37,15 +37,15 @@ public class mainFrame extends JFrame{
         try {
             shana = ImageIO.read(new FileInputStream("src/main/resources/shana/shana_stand.png"));
             mainFrame jf = new mainFrame();
-            jf.current_role = new Role_shana("shana", null);
+            jf.current_role = new Role_shana("shana", null, 1000, 10);
 
             //通过构造方法将缓冲缓冲区对像的引用传给自定义Panel
             Role_jpanel jp = new Role_jpanel(jf.current_role);
             // 构造一个 bats的对象
-            Role bats = new monster_bats("bats", new Point(100, 100));
+            Role bats = new monster_bats("bats", new Point(300, 300), 100, 0);
             jp.add_Role(bats);
 
-            jf.setBounds(200,200,500, 500);
+            jf.setBounds(200,200,800, 800);
             jp.setSize(220, 100);
             jf.add(jp);
             jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

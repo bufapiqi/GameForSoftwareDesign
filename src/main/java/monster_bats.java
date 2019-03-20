@@ -8,8 +8,11 @@ import java.io.IOException;
  *
  * */
 public class monster_bats extends Role{
-    public monster_bats(String Role_name, Point role_points){
+    public monster_bats(String Role_name, Point role_points, int HP, int origin_attack_ab){
         super(Role_name, role_points);
+        this.HP = HP;
+        this.NOW_HP = HP;
+        this.attack_ab = origin_attack_ab;
         Image bats = null;
         try {
             bats = ImageIO.read(new FileInputStream("src/main/resources/"+Role_name+"/"+Role_name+"_stand.png"));
