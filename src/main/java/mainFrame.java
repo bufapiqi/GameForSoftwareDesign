@@ -42,6 +42,8 @@ public class mainFrame extends JFrame{
             //通过构造方法将缓冲缓冲区对像的引用传给自定义Panel
             Role_jpanel jp = new Role_jpanel(jf.current_role);
             // 构造一个 bats的对象
+            Role bats = new monster_bats("bats", new Point(100, 100));
+            jp.add_Role(bats);
 
             jf.setBounds(200,200,500, 500);
             jp.setSize(220, 100);

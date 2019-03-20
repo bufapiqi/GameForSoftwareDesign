@@ -41,7 +41,7 @@ public abstract class Role{
         }
 //        this.current_image = image_hashmap.get(KeyCode); // 返回相应的角色动作
         update_image_x(image_hashmap.get(KeyCode));
-        role_point.printPoint();
+//        role_point.printPoint();
         this.role_point.selfAdd(this.current_image.getAction_type(), 500, 500);
         return this;
     }

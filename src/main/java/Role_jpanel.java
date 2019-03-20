@@ -3,15 +3,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Role_jpanel extends JPanel {
-
-//    private Graphics g;
-//    private Role_image im;
-//    private int im_x = 0;
-//    private int im_y = 0;
-//    private Point paint_point = new Point(0, 0);
-
-//    private Action_enum now_action_type = Action_enum.STAND;
-
     // 估计需要一个role_image的队列，或者说arraylist
     private ArrayList<Role> im_list = new ArrayList<Role>();
 
@@ -37,6 +28,10 @@ public class Role_jpanel extends JPanel {
             Role_image temp_image = temp.current_image;
             int width = temp_image.getWidth(this);
             int height = temp_image.getHeight(this);
+            if (temp instanceof monster_bats){  // 这里可能需要修改设计模式
+                monster_bats temp_bats = (monster_bats)temp;
+                temp_bats.get_Action(temp_bats.random_direction());
+            }
             temp.update_image_x(temp_image);
             g1.drawImage(temp_image.getImage(), temp.role_point.getX(), temp.role_point.getY(),
                     temp.role_point.getX()+width, temp.role_point.getY()+height,
