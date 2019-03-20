@@ -32,6 +32,10 @@ public class Point {
                 break;
         }
     }
+    public void printPoint(){
+        System.out.println(x+"     "+y);
+    }
+
     public int getX() {
         return x;
     }

@@ -12,6 +12,8 @@ public class Role_image extends Image {
     private Image image;
     private int action_nums = 1;
     private Action_enum action_type;
+    private int im_x = 0;
+    private int im_y = 0;
 
     public Role_image(Image image, int action_nums, Action_enum type){
         this.image = image;
@@ -50,5 +52,21 @@ public class Role_image extends Image {
 
     public Action_enum getAction_type() {
         return action_type;
+    }
+
+    public int getIm_x() {
+        return im_x;
+    }
+
+    public int getIm_y() {
+        return im_y;
+    }
+
+    public void setIm_x(int im_x) {
+        this.im_x = im_x;
+    }
+
+    public void setIm_y(int im_y) {
+        this.im_y = im_y;
     }
 }

@@ -1,5 +1,3 @@
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -38,12 +36,13 @@ public class mainFrame extends JFrame{
         Image im;
         try {
             shana = ImageIO.read(new FileInputStream("src/main/resources/shana/shana_stand.png"));
-            im = shana;
             mainFrame jf = new mainFrame();
-            jf.current_role = new Role_shana("shana");
+            jf.current_role = new Role_shana("shana", null);
 
             //通过构造方法将缓冲缓冲区对像的引用传给自定义Panel
-            jpanelTest jp = new jpanelTest(jf.current_role.image_hashmap.get(-1));
+            Role_jpanel jp = new Role_jpanel(jf.current_role);
+            // 构造一个 bats的对象
+
             jf.setBounds(200,200,500, 500);
             jp.setSize(220, 100);
             jf.add(jp);
@@ -56,7 +55,7 @@ public class mainFrame extends JFrame{
                 jp.display(0);
                 try
                 {
-                    Thread.sleep(50);
+                    Thread.sleep(60);
                 }
                 catch (InterruptedException e)
                 {
