@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Role_jpanel extends JPanel {
-    // 估计需要一个role_image的队列，或者说arraylist
     private ArrayList<Role> im_list = new ArrayList<Role>();
     private Image background;
     private ArrayList<Equiment> equiment_pool = new ArrayList<Equiment>(); // 掉落在界面上的装备的池子
@@ -49,11 +48,12 @@ public class Role_jpanel extends JPanel {
             Role_image temp_image = temp.current_image;
             int width = temp_image.getWidth(this);
             int height = temp_image.getHeight(this);
+            int attack_judge_x = role_hero.role_point.getX() + role_hero.current_image.getWidth(this);
+            int attack_judge_y = role_hero.role_point.getY() + role_hero.current_image.getHeight(this);
             if (!(temp instanceof Role_shana)){
+                // 判断monster的受伤害范围
                 monster_bats temp_bats = (monster_bats)temp;
                 temp_bats.get_Action(temp_bats.random_direction());
-                int attack_judge_x = role_hero.role_point.getX() + role_hero.current_image.getWidth(this);
-                int attack_judge_y = role_hero.role_point.getY() + role_hero.current_image.getHeight(this);
                 if (role_hero.current_image.getAction_type() == Action_enum.LIGHT_ATTACK &&
                         attack_judge_x > temp.role_point.getX() && attack_judge_y > temp.role_point.getY() &&
                     temp.role_point.getX() > role_hero.role_point.getX() &&
@@ -65,6 +65,36 @@ public class Role_jpanel extends JPanel {
                         temp_equi.setDroped_location(new Point(temp.role_point.getX(), temp.role_point.getY()));
                         equiment_pool.add(temp_equi);
                         need_delete.add(i);
+                    }
+                }
+            }else {
+                // 判断英雄有没有捡什么东西
+                if (role_hero.current_image.getAction_type() == Action_enum.PICK_EQUIPMENT){
+                    int equimentpool_length = equiment_pool.size();
+                    int current_index = 0;
+                    while (equiment_pool.size() != 0 || current_index < equimentpool_length){
+                        Equiment current_equiment = equiment_pool.get(current_index);
+
+                        if (attack_judge_x > current_equiment.getDroped_location().x &&
+                                attack_judge_y > current_equiment.getDroped_location().y &&
+                                current_equiment.getDroped_location().x > role_hero.role_point.getX() &&
+                                current_equiment.getDroped_location().y > role_hero.role_point.getY()){
+
+                            switch (current_equiment.getEquiment_type()){
+                                case Weapen:
+                                    Equiment old_equiment = role_hero.add_equiment(current_equiment);
+                                    if (old_equiment != null){
+                                        equiment_pool.remove(current_index);
+                                        equiment_pool.add(old_equiment);
+                                    }else {
+                                        equiment_pool.remove(current_index);
+                                        current_index --;
+                                    }
+                            }
+                        }else {
+                            current_index++;
+                        }
+
                     }
                 }
             }
@@ -95,10 +125,16 @@ public class Role_jpanel extends JPanel {
             // 攻击力
             g1.setColor(Color.BLACK);
             g1.drawString("攻击力:", 120, 670);
-            g1.drawString(String.valueOf(role_hero.attack_ab), 160, 671);
             // 武器  这个估计要随机生成
             g1.drawString("武器:", 120, 690);
-            g1.drawString("倚天剑", 160, 691);
+            if (role_hero.get_Weapon() != null){
+                g1.drawString(String.valueOf(role_hero.attack_ab + role_hero.get_Weapon().getAttack_ab()),
+                        160, 671);
+                g1.drawString(role_hero.get_Weapon().getName(), 160, 691);
+            }else {
+                g1.drawString(String.valueOf(role_hero.attack_ab), 160, 671);
+                g1.drawString("无装备", 160, 691);
+            }
             // 防具  +1
             g1.drawString("防具:", 120, 710);
             g1.drawString("锁子甲", 160, 711);

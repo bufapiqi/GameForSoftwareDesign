@@ -19,7 +19,6 @@ public class Weapen extends Equiment {
     protected String description;
     protected int attack_ab;
     protected Image weapen_image;
-    protected Point droped_location;
     public Weapen(String name, String description, int attack_ab){
         this.name = name;
         this.description = description;
@@ -55,13 +54,5 @@ public class Weapen extends Equiment {
 
     public void setWeapen_image(Image weapen_image) {
         this.weapen_image = weapen_image;
-    }
-
-    public Point getDroped_location() {
-        return droped_location;
-    }
-
-    public void setDroped_location(Point droped_location) {
-        this.droped_location = droped_location;
     }
 }

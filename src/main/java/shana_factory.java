@@ -28,6 +28,9 @@ public class shana_factory extends Role_action_factory{
             }else if( keyCode == 40){
                 Image shana = ImageIO.read(new FileInputStream("src/main/resources/shana/shana_rollback.png"));
                 need_return = new Role_image(shana, 8, Action_enum.DOWN);
+            }else if (keyCode == 88){
+                Image shana = ImageIO.read(new FileInputStream("src/main/resources/shana/shana_stand.png"));
+                need_return = new Role_image(shana, 4, Action_enum.PICK_EQUIPMENT);
             }
         } catch (IOException e) {
             e.printStackTrace();

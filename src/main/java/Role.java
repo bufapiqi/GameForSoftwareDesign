@@ -1,5 +1,6 @@
 import Equipment.Equiment;
 import Equipment.Equiment_enum;
+import Equipment.Weapen.Weapen;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -113,11 +114,17 @@ public abstract class Role{
         this.equiment_hashmap = equiment_hashmap;
     }
 
-    public boolean add_equiment(Equiment equiment){
+    public Equiment add_equiment(Equiment equiment){
+        Equiment need_return = null;
         if (equiment_hashmap.containsKey(equiment.getEquiment_type())){
-            return false;
+            need_return = equiment_hashmap.get(equiment.getEquiment_type());
+            need_return.setDroped_location(new java.awt.Point(this.role_point.getX(), this.role_point.getY()));
         }
         equiment_hashmap.put(equiment.getEquiment_type(), equiment);
-        return true;
+        return need_return;
+    }
+
+    public Weapen get_Weapon(){
+        return (Weapen) this.equiment_hashmap.get(Equiment_enum.Weapen);
     }
 }
