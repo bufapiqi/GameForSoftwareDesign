@@ -1,6 +1,7 @@
 import Equipment.Equiment;
 import Equipment.Equiment_enum;
 import Equipment.Weapen.Weapen;
+import Game_event.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -10,12 +11,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class Role_jpanel extends JPanel {
     private ArrayList<Role> im_list = new ArrayList<Role>();
     private Image background;
     private ArrayList<Equiment> equiment_pool = new ArrayList<Equiment>(); // 掉落在界面上的装备的池子
     private Image offScreenImage;
+    private LinkedList<Base_event> event_pool = new LinkedList<Base_event>();  // 事件池子
 
     public Role_jpanel(Role im) {
         if (im != null) {
@@ -65,6 +68,9 @@ public class Role_jpanel extends JPanel {
                         temp_equi.setDroped_location(new Point(temp.role_point.getX(), temp.role_point.getY()));
                         equiment_pool.add(temp_equi);
                         need_delete.add(i);
+                        // 添加事件的代码
+                        event_pool.add(new Monster_dead(temp.Role_name));
+                        event_pool.add(new Droped_equipment(temp.equiment_hashmap.get(Equiment_enum.Weapen).getName()));
                     }
                 }
             }else {
@@ -72,7 +78,7 @@ public class Role_jpanel extends JPanel {
                 if (role_hero.current_image.getAction_type() == Action_enum.PICK_EQUIPMENT){
                     int equimentpool_length = equiment_pool.size();
                     int current_index = 0;
-                    while (equiment_pool.size() != 0 || current_index < equimentpool_length){
+                    while (equiment_pool.size() != 0 && current_index < equimentpool_length){
                         Equiment current_equiment = equiment_pool.get(current_index);
 
                         if (attack_judge_x > current_equiment.getDroped_location().x &&
@@ -83,9 +89,12 @@ public class Role_jpanel extends JPanel {
                             switch (current_equiment.getEquiment_type()){
                                 case Weapen:
                                     Equiment old_equiment = role_hero.add_equiment(current_equiment);
+                                    Picked_equipment picked_event = new Picked_equipment(current_equiment.getName());
+                                    picked_event.append(String.valueOf(((Weapen)current_equiment).getAttack_ab()));
+                                    event_pool.add(picked_event);
                                     if (old_equiment != null){
                                         equiment_pool.remove(current_index);
-                                        equiment_pool.add(old_equiment);
+                                        equiment_pool.add(current_equiment);
                                     }else {
                                         equiment_pool.remove(current_index);
                                         current_index --;
@@ -153,6 +162,13 @@ public class Role_jpanel extends JPanel {
             g1.drawImage(draw.getWeapen_image(), draw.getDroped_location().x, draw.getDroped_location().y,
                     draw.getWeapen_image().getWidth(this), draw.getWeapen_image().getHeight(this),
                     this);
+        }
+        int count = event_pool.size()-1;
+        for (int i = 0 ; i < 3 ; i++){
+            if (count >= 0){
+                g1.drawString(event_pool.get(count).getEvent_description(), 260, 670 + count*20);
+                count--;
+            }
         }
     }
 
