@@ -1,3 +1,7 @@
+import Equipment.Equiment;
+import Equipment.Equiment_enum;
+
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -13,10 +17,12 @@ public abstract class Role{
     protected HashMap<Integer, Role_image> image_hashmap;
     protected Point role_point;
     protected Role_image current_image;
+    protected HashMap<Equiment_enum, Equiment> equiment_hashmap;
 
     public Role(String Role_name, Point role_point){
         this.Role_name = Role_name;
         this.image_hashmap = new HashMap<Integer, Role_image>();
+        this.equiment_hashmap = new HashMap<Equiment_enum, Equiment>();
         if ( role_point == null){
             this.role_point = new Point(0, 0);
         }else {
@@ -50,7 +56,6 @@ public abstract class Role{
     }
 
     public Role get_Action(Action_enum mons_direction){
-//        this.current_image = image_hashmap.get(-1);
         update_image_x(image_hashmap.get(-1));
         this.role_point.selfAdd(mons_direction, 800, 800);
         return this;
@@ -59,7 +64,8 @@ public abstract class Role{
     public void update_image_x(Role_image temp){
         if (this.current_image == temp){
             int temp_int = this.current_image.getIm_x();
-            if (temp_int < this.current_image.getAction_nums()){
+//            System.out.println(temp_int);
+            if (temp_int < this.current_image.getAction_nums()-1){
                 this.current_image.setIm_x(temp_int+1);
             }else {
                 this.current_image.setIm_x(0);
@@ -97,5 +103,21 @@ public abstract class Role{
 
     public void setAttack_ab(int attack_ab) {
         this.attack_ab = attack_ab;
+    }
+
+    public HashMap<Equiment_enum, Equiment> getEquiment_hashmap() {
+        return equiment_hashmap;
+    }
+
+    public void setEquiment_hashmap(HashMap<Equiment_enum, Equiment> equiment_hashmap) {
+        this.equiment_hashmap = equiment_hashmap;
+    }
+
+    public boolean add_equiment(Equiment equiment){
+        if (equiment_hashmap.containsKey(equiment.getEquiment_type())){
+            return false;
+        }
+        equiment_hashmap.put(equiment.getEquiment_type(), equiment);
+        return true;
     }
 }

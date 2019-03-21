@@ -18,7 +18,7 @@ public class Role_shana extends Role{
         Image shana = null;
         try {
             shana = ImageIO.read(new FileInputStream("src/main/resources/"+Role_name+"/"+Role_name+"_stand.png"));
-            shana_head = ImageIO.read(new FileInputStream("src/main/resources/"+Role_name+"/"+Role_name+"_head1.png"));
+            shana_head = ImageIO.read(new FileInputStream("src/main/resources/"+Role_name+"/"+Role_name+"_head.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

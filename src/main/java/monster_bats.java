@@ -1,7 +1,12 @@
+import Equipment.Equiment;
+import Equipment.Equiment_enum;
+import Equipment.Weapen.yitian_sword;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * 蝙蝠类的具体类
@@ -13,6 +18,10 @@ public class monster_bats extends Role{
         this.HP = HP;
         this.NOW_HP = HP;
         this.attack_ab = origin_attack_ab;
+        //暂时先放倚天剑进去瞅瞅
+        Equiment yitian = new yitian_sword();
+        this.equiment_hashmap.put(yitian.getEquiment_type(), yitian);
+        //暂时先放倚天剑进去瞅瞅
         Image bats = null;
         try {
             bats = ImageIO.read(new FileInputStream("src/main/resources/"+Role_name+"/"+Role_name+"_stand.png"));

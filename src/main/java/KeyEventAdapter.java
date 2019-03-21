@@ -16,14 +16,10 @@ public class KeyEventAdapter implements KeyListener {
 //        System.out.println(e.getKeyCode());
 //        System.out.println(KeyEvent.getKeyText(e.getKeyCode()));
         Role need_return = current.get_Action(e.getKeyCode());
-//        test.setIm(need_return);
-//        test.setNow_action_type(need_return.getAction_type());
     }
 
     public void keyReleased(KeyEvent e) {
 //        System.out.println(e.getKeyCode() + "    释放了");
         Role need_return = current.get_Action(-1);
-//        test.setIm(need_return);
-//        test.setNow_action_type(need_return.getAction_type());
     }
 }

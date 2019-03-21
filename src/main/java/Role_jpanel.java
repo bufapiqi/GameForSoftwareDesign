@@ -1,14 +1,22 @@
+import Equipment.Equiment;
+import Equipment.Equiment_enum;
+import Equipment.Weapen.Weapen;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Point;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Role_jpanel extends JPanel {
     // 估计需要一个role_image的队列，或者说arraylist
     private ArrayList<Role> im_list = new ArrayList<Role>();
     private Image background;
+    private ArrayList<Equiment> equiment_pool = new ArrayList<Equiment>(); // 掉落在界面上的装备的池子
+    private Image offScreenImage;
 
     public Role_jpanel(Role im) {
         if (im != null) {
@@ -27,14 +35,15 @@ public class Role_jpanel extends JPanel {
 //            im_x = 55 * index;
         //更新缓图
         this.repaint();
+//        this.update(getGraphics());
     }
 
     @Override
-    public void  paintComponent(Graphics g1){
-        super.paintComponent(g1);
+    public void  paint(Graphics g1){   // 这里可能要把 Graphics传进去 让每个组件 自己画自己
+        super.paint(g1);
         g1.drawImage(this.background, 0, 0, 780, 638, this);
-        ArrayList<Integer> need_delete = new ArrayList<Integer>();
         Role role_hero = im_list.get(0);
+        ArrayList<Integer> need_delete = new ArrayList<Integer>();  // 保存了需要删除的monster
         for (int i = 0; i < im_list.size(); i++){
             Role temp = im_list.get(i);
             Role_image temp_image = temp.current_image;
@@ -51,11 +60,15 @@ public class Role_jpanel extends JPanel {
                     temp.role_point.getY() > role_hero.role_point.getY()){
                     temp.setNOW_HP(temp.getNOW_HP() - role_hero.getAttack_ab());
                     if (temp.getNOW_HP() <= 0){
+                        HashMap<Equiment_enum, Equiment> droped_equiment = temp.getEquiment_hashmap();
+                        Weapen temp_equi = (Weapen) droped_equiment.get(Equiment_enum.Weapen);
+                        temp_equi.setDroped_location(new Point(temp.role_point.getX(), temp.role_point.getY()));
+                        equiment_pool.add(temp_equi);
                         need_delete.add(i);
                     }
                 }
             }
-            // tou ding de xue tiao
+            // 头顶的血条
             g1.setColor(Color.red);
             int temp_width = (int)(((double)temp.getNOW_HP() / (double)temp.getHP()) * 40);
             g1.drawRect(temp.role_point.getX() + 20, temp.role_point.getY()-10, 40, 10);
@@ -67,33 +80,59 @@ public class Role_jpanel extends JPanel {
                     temp_image.getIm_x()*width, temp_image.getIm_y(),
                     (temp_image.getIm_x()+1)*width, temp_image.getIm_y()+height,
                     this);
+//            System.out.println(temp.Role_name +"    "+(temp_image.getIm_x()+1)*width);
             // 分割线
             g1.setColor(Color.BLACK);
             g1.fillRect(0, 636, 800, 1);
+            // 头像
+            Role_shana get_shana_head = (Role_shana)role_hero;
+            g1.drawImage(get_shana_head.getShana_head(), 0, 636, get_shana_head.getShana_head().getWidth(this),
+                    get_shana_head.getShana_head().getHeight(this), this);
             // HP String
-            g1.drawString("HP:", 20, 650);
+            g1.drawString("HP:", 120, 650);
             // HP 血条
-            g1.setColor(Color.red);
-            int now_width = (role_hero.NOW_HP / role_hero.getHP()) * 40;
-            g1.drawRect(50, 640, 40, 10);
-            g1.fillRect(50, 640, now_width, 10);
+            g1.drawString(String.valueOf(role_hero.NOW_HP)+"/"+String.valueOf(role_hero.HP), 160, 650);
             // 攻击力
             g1.setColor(Color.BLACK);
-            g1.drawString("攻击力:", 20, 670);
-            g1.drawString(String.valueOf(role_hero.attack_ab), 60, 671);
+            g1.drawString("攻击力:", 120, 670);
+            g1.drawString(String.valueOf(role_hero.attack_ab), 160, 671);
             // 武器  这个估计要随机生成
+            g1.drawString("武器:", 120, 690);
+            g1.drawString("倚天剑", 160, 691);
             // 防具  +1
+            g1.drawString("防具:", 120, 710);
+            g1.drawString("锁子甲", 160, 711);
             // 饰品  +1
+            g1.drawString("饰品:", 120, 730);
+            g1.drawString("麻痹戒指", 160, 731);
             // 与事件  面板隔离
             g1.drawLine(250, 636, 250, 750);
-            // 英雄头像
-//            Role_shana shana_hero = (Role_shana)role_hero;
-//            g1.drawImage(shana_hero.getShana_head(), 0, 636, 64, 700,
-//                    0, 0, 64, 64, this);
         }
         for (int i = 0 ; i < need_delete.size(); i++){
             im_list.remove((int)need_delete.get(i));
         }
+        for(int i = 0; i < equiment_pool.size(); i++){
+            Weapen draw = (Weapen)equiment_pool.get(i);
+//            System.out.println(draw.getDroped_location().toString());
+            g1.drawImage(draw.getWeapen_image(), draw.getDroped_location().x, draw.getDroped_location().y,
+                    draw.getWeapen_image().getWidth(this), draw.getWeapen_image().getHeight(this),
+                    this);
+        }
+    }
+
+    @Override
+    public void update(Graphics g){
+//        super.update(g);
+        if (this.offScreenImage == null){
+            this.offScreenImage = this.createImage(800, 800);
+        }
+        Graphics gOffScreen = this.offScreenImage.getGraphics();  // 得到缓冲图像的画笔
+        // 开始绘制图像
+        System.out.println("ss");
+//        paint(gOffScreen);
+        paintComponent(gOffScreen);
+        g.drawImage(offScreenImage,0, 0, null);
+
     }
 
     public void add_Role(Role im){
