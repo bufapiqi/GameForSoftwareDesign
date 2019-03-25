@@ -8,8 +8,7 @@ import java.io.IOException;
  * 可以自己再添加一些方法
  *
  * */
-public class Role_shana extends Role{
-    private Image shana_head;
+public class Role_shana extends Hero {
     public Role_shana(String Role_name, Point role_point, int HP, int origin_attack_ab) {
         super(Role_name, role_point);
         this.NOW_HP = HP;
@@ -18,15 +17,10 @@ public class Role_shana extends Role{
         Image shana = null;
         try {
             shana = ImageIO.read(new FileInputStream("src/main/resources/"+Role_name+"/"+Role_name+"_stand.png"));
-            shana_head = ImageIO.read(new FileInputStream("src/main/resources/"+Role_name+"/"+Role_name+"_head.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         this.current_image = new Role_image(shana, 4, Action_enum.STAND);
         this.image_hashmap.put(-1, this.current_image);
-    }
-
-    public Image getShana_head() {
-        return shana_head;
     }
 }

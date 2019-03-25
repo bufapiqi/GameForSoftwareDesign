@@ -1,24 +1,23 @@
 import Equipment.Equiment;
-import Equipment.Equiment_enum;
 import Equipment.Weapen.yitian_sword;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * 蝙蝠类的具体类
  *
  * */
-public class monster_bats extends Role{
+public class monster_bats extends Monster {
     public monster_bats(String Role_name, Point role_points, int HP, int origin_attack_ab){
         super(Role_name, role_points);
         this.HP = HP;
         this.NOW_HP = HP;
         this.attack_ab = origin_attack_ab;
-        //暂时先放倚天剑进去瞅瞅
+        this.droped_ex = 10;
+        //暂时先放倚天剑进去瞅瞅  这个估计要放进工厂里生产 随机生产
         Equiment yitian = new yitian_sword();
         this.equiment_hashmap.put(yitian.getEquiment_type(), yitian);
         //暂时先放倚天剑进去瞅瞅

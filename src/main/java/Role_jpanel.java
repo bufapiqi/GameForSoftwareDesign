@@ -44,7 +44,7 @@ public class Role_jpanel extends JPanel {
     public void  paint(Graphics g1){   // 这里可能要把 Graphics传进去 让每个组件 自己画自己
         super.paint(g1);
         g1.drawImage(this.background, 0, 0, 780, 638, this);
-        Role role_hero = im_list.get(0);
+        Hero role_hero = (Hero)im_list.get(0);
         ArrayList<Integer> need_delete = new ArrayList<Integer>();  // 保存了需要删除的monster
         for (int i = 0; i < im_list.size(); i++){
             Role temp = im_list.get(i);
@@ -53,21 +53,26 @@ public class Role_jpanel extends JPanel {
             int height = temp_image.getHeight(this);
             int attack_judge_x = role_hero.role_point.getX() + role_hero.current_image.getWidth(this);
             int attack_judge_y = role_hero.role_point.getY() + role_hero.current_image.getHeight(this);
-            if (!(temp instanceof Role_shana)){
+            if (!(temp instanceof Hero)){
                 // 判断monster的受伤害范围
-                monster_bats temp_bats = (monster_bats)temp;
+                Monster temp_Monster = (Monster)temp;
+                monster_bats temp_bats = (monster_bats)temp_Monster;
                 temp_bats.get_Action(temp_bats.random_direction());
                 if (role_hero.current_image.getAction_type() == Action_enum.LIGHT_ATTACK &&
-                        attack_judge_x > temp.role_point.getX() && attack_judge_y > temp.role_point.getY() &&
-                    temp.role_point.getX() > role_hero.role_point.getX() &&
-                    temp.role_point.getY() > role_hero.role_point.getY()){
-                    temp.setNOW_HP(temp.getNOW_HP() - role_hero.getAttack_ab());
-                    if (temp.getNOW_HP() <= 0){
-                        HashMap<Equiment_enum, Equiment> droped_equiment = temp.getEquiment_hashmap();
-                        Weapen temp_equi = (Weapen) droped_equiment.get(Equiment_enum.Weapen);
-                        temp_equi.setDroped_location(new Point(temp.role_point.getX(), temp.role_point.getY()));
+                        attack_judge_x > temp_Monster.role_point.getX() && attack_judge_y > temp_Monster.role_point.getY() &&
+                        temp_Monster.role_point.getX() > role_hero.role_point.getX() &&
+                        temp_Monster.role_point.getY() > role_hero.role_point.getY()){
+                    temp_Monster.setNOW_HP(temp.getNOW_HP() - role_hero.getAttack_ab());
+                    if (temp_Monster.getNOW_HP() <= 0){
+                        // 怪物掉落装备的代码
+                        HashMap<Equiment_enum, Equiment> droped_equiment = temp_Monster.getEquiment_hashmap();
+                        Weapen temp_equi = (Weapen) droped_equiment.get(Equiment_enum.Weapen);  //暂时只掉落武器
+                        temp_equi.setDroped_location(new Point(temp_Monster.role_point.getX(), temp_Monster.role_point.getY()));
                         equiment_pool.add(temp_equi);
+                        // 删除页面上的怪物
                         need_delete.add(i);
+                        // 增加英雄的经验值
+                        role_hero.raise_level(temp_Monster.droped_ex);
                         // 添加事件的代码
                         event_pool.add(new Monster_dead(temp.Role_name));
                         event_pool.add(new Droped_equipment(temp.equiment_hashmap.get(Equiment_enum.Weapen).getName()));
@@ -124,32 +129,38 @@ public class Role_jpanel extends JPanel {
             g1.setColor(Color.BLACK);
             g1.fillRect(0, 636, 800, 1);
             // 头像
-            Role_shana get_shana_head = (Role_shana)role_hero;
-            g1.drawImage(get_shana_head.getShana_head(), 0, 636, get_shana_head.getShana_head().getWidth(this),
-                    get_shana_head.getShana_head().getHeight(this), this);
+            g1.drawImage(role_hero.getRole_head(), 0, 636, role_hero.getRole_head().getWidth(this),
+                    role_hero.getRole_head().getHeight(this), this);
             // HP String
             g1.drawString("HP:", 120, 650);
             // HP 血条
             g1.drawString(String.valueOf(role_hero.NOW_HP)+"/"+String.valueOf(role_hero.HP), 160, 650);
             // 攻击力
             g1.setColor(Color.BLACK);
-            g1.drawString("攻击力:", 120, 670);
+            g1.drawString("攻击力:", 120, 665);
             // 武器  这个估计要随机生成
-            g1.drawString("武器:", 120, 690);
+            g1.drawString("武器:", 120, 680);
             if (role_hero.get_Weapon() != null){
                 g1.drawString(String.valueOf(role_hero.attack_ab + role_hero.get_Weapon().getAttack_ab()),
-                        160, 671);
-                g1.drawString(role_hero.get_Weapon().getName(), 160, 691);
+                        160, 666);
+                g1.drawString(role_hero.get_Weapon().getName(), 160, 681);
             }else {
-                g1.drawString(String.valueOf(role_hero.attack_ab), 160, 671);
-                g1.drawString("无装备", 160, 691);
+                g1.drawString(String.valueOf(role_hero.attack_ab), 160, 666);
+                g1.drawString("无装备", 160, 681);
             }
             // 防具  +1
-            g1.drawString("防具:", 120, 710);
-            g1.drawString("锁子甲", 160, 711);
+            g1.drawString("防具:", 120, 695);
+            g1.drawString("锁子甲", 160, 696);
             // 饰品  +1
-            g1.drawString("饰品:", 120, 730);
-            g1.drawString("麻痹戒指", 160, 731);
+            g1.drawString("饰品:", 120, 710);
+            g1.drawString("麻痹戒指", 160, 711);
+            // 等级
+            g1.drawString("等级:", 120, 725);
+            g1.drawString(String.valueOf(role_hero.level), 160, 726);
+            // 经验
+            g1.drawString("经验:", 120, 740);
+            g1.drawString(String.valueOf(role_hero.level_ex)+"/"+String.valueOf(role_hero.now_need_ex),
+                    160, 741);
             // 与事件  面板隔离
             g1.drawLine(250, 636, 250, 750);
         }
